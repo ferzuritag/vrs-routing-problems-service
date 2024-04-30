@@ -2,6 +2,8 @@ from fastapi import Request, HTTPException
 
 from classes.RoutingProblemsDAO import RoutingProblemsDAO
 
+from utils.clients.validate_clients_data import validate_clients_data
+
 async def post_routing_problem(request: Request, owner: str):
 
     data = await request.json()
@@ -16,6 +18,8 @@ async def post_routing_problem(request: Request, owner: str):
         raise HTTPException(400, detail="You should provide the settings")
     if name is None:
         raise HTTPException(400, detail="You should provide a name")
+    
+    validate_clients_data(clients)
 
     routing_problems_dao = RoutingProblemsDAO()
 
