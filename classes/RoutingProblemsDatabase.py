@@ -1,9 +1,10 @@
 from pymongo import MongoClient
+import os
 
 class RoutingProblemsDatabase:
     def __init__(self):
 
-        self.client = MongoClient()
+        self.client = MongoClient(os.getenv('MONGO_CONNECTION_STRING'))
 
         self.database = self.client.get_database('routing_problems')
 
