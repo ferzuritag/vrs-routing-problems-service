@@ -36,9 +36,10 @@ class RoutingProblemsDAO:
         )
     
     def post_routing_problem(self, routing_info):
-        clients = routing_info['clients']
+        clients = routing_info['locations']
         settings = routing_info['settings']
         owner = routing_info['owner']
+        problem_type = routing_info['type']
         name = routing_info['name']
         routing_problem_id = str(uuid4())
         
@@ -46,6 +47,7 @@ class RoutingProblemsDAO:
             'id': routing_problem_id,
             'name': name,
             'clients': clients,
+            'type': problem_type,
             'settings': settings,
             'owner': owner
         })
