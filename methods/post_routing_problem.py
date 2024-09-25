@@ -8,26 +8,32 @@ async def post_routing_problem(request: Request, owner: str):
 
     data = await request.json()
 
-    clients = data.get('clients')
+    clients = data.get('locations')
     settings = data.get('settings')
+    solution = data.get('solution')
     name = data.get('name')
+    problem_type = data.get('name')
 
     if clients is None:
-        raise HTTPException(400, detail="You should provide the clients")
+        raise HTTPException(400, detail="You should provide the locations")
     if settings is None:
         raise HTTPException(400, detail="You should provide the settings")
     if name is None:
         raise HTTPException(400, detail="You should provide a name")
+    if problem_type is None:
+        raise HTTPException(400, detail="You should provide a problem type")
     
     validate_clients_data(clients)
 
     routing_problems_dao = RoutingProblemsDAO()
 
     routing_problem_id = routing_problems_dao.post_routing_problem({
-        'clients': clients,
+        'type': problem_type,
+        'locations': clients,
         'settings': settings,
         'owner': owner,
-        'name': name
+        'name': name,
+        'solution': solution
     })
 
     routing_problems_dao.close_connection()
