@@ -19,7 +19,7 @@ class RoutingProblemsDAO:
         {
             '_id': 0,
             'owner': 0,
-            'clients': 0,
+            'locations': 0,
             'settings': 0
         }
         ).skip(page_size * page).limit(page_size)
@@ -36,7 +36,7 @@ class RoutingProblemsDAO:
         )
     
     def post_routing_problem(self, routing_info):
-        clients = routing_info['locations']
+        locations = routing_info['locations']
         settings = routing_info['settings']
         owner = routing_info['owner']
         problem_type = routing_info['type']
@@ -46,13 +46,40 @@ class RoutingProblemsDAO:
         self.database.routing_problems_collection.insert_one({
             'id': routing_problem_id,
             'name': name,
-            'clients': clients,
+            'locations': locations,
             'type': problem_type,
             'settings': settings,
             'owner': owner
         })
 
         return routing_problem_id
+    
+    def put_routing_problem(self, id, routing_info):
+        locations = routing_info['locations']
+        print('locs--->', locations)
+        settings = routing_info['settings']
+        owner = routing_info['owner']
+        problem_type = routing_info['type']
+        name = routing_info['name']
+        
+        data_to_update = {
+            'name': name,
+            'locations': locations,
+            'type': problem_type,
+            'settings': settings,
+            'owner': owner
+        }
+
+        self.database.routing_problems_collection.update_one(
+            {
+                'id': id
+            },
+            {
+                '$set': data_to_update
+            }
+            )
+
+        return data_to_update
     
     def delete_routing_problem(self, id, requester):
 

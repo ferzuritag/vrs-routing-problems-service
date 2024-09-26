@@ -4,8 +4,7 @@ from classes.RoutingProblemsDAO import RoutingProblemsDAO
 
 from utils.clients.validate_clients_data import validate_clients_data
 
-async def post_routing_problem(request: Request, owner: str):
-
+async def put_routing_problem(id: str, request: Request, owner: str):
     data = await request.json()
 
     locations = data.get('locations')
@@ -27,14 +26,15 @@ async def post_routing_problem(request: Request, owner: str):
 
     routing_problems_dao = RoutingProblemsDAO()
 
-    routing_problem_id = routing_problems_dao.post_routing_problem({
+    routing_problem_id = routing_problems_dao.put_routing_problem(
+        id,
+        {
         'type': problem_type,
         'locations': locations,
         'settings': settings,
         'owner': owner,
-        'name': name,
-        'solution': solution
-    })
+        'name': name
+        })
 
     routing_problems_dao.close_connection()
 

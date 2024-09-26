@@ -3,6 +3,7 @@ from fastapi import APIRouter, Request, Header
 from methods.get_routing_problem import get_routing_problem
 from methods.get_routing_problems import get_routing_problems
 from methods.post_routing_problem import post_routing_problem
+from methods.put_routing_problem import put_routing_problem
 from methods.delete_routing_problem import delete_routing_problem
 
 from security.check_authorization_header import check_authorization_header
@@ -27,8 +28,13 @@ def getRoutingProblem(routing_problem_id, authorization = Header()):
 async def postRoutingProblem(request: Request, authorization = Header()):
     check_authorization_header(authorization)
     email = get_email_from_authorization_header(authorization)
-    print('email from route', email)
     return await post_routing_problem(request, owner=email)
+
+@routing_problems.put('/routing-problems/{routing_problem_id}')
+async def putRoutingProblem(routing_problem_id, request: Request, authorization = Header()):
+    check_authorization_header(authorization)
+    email = get_email_from_authorization_header(authorization)
+    return await put_routing_problem(routing_problem_id, request, email)
 
 @routing_problems.delete('/routing-problems/{routing_problem_id}')
 def getRoutingProblem(routing_problem_id, authorization = Header()):
