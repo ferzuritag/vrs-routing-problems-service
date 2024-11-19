@@ -33,7 +33,8 @@ async def put_routing_problem(id: str, request: Request, owner: str):
         'locations': locations,
         'settings': settings,
         'owner': owner,
-        'name': name
+        'name': name,
+        'solution': solution if solution is not None else []
         })
 
     routing_problems_dao.close_connection()
