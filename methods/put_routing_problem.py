@@ -12,15 +12,18 @@ async def put_routing_problem(id: str, request: Request, owner: str):
     solution = data.get('solution')
     name = data.get('name')
     problem_type = data.get('type')
+    data = data.get('data')
 
     if locations is None:
-        raise HTTPException(400, detail="You should provide the locations")
+        raise HTTPException(400, detail="Debes especificar las localizaciones del problema")
     if settings is None:
-        raise HTTPException(400, detail="You should provide the settings")
+        raise HTTPException(400, detail="Debes especificar las configuraciones del problema")
     if name is None:
-        raise HTTPException(400, detail="You should provide a name")
+        raise HTTPException(400, detail="Debes especificar el nombre del problema")
     if problem_type is None:
-        raise HTTPException(400, detail="You should provide a problem type")
+        raise HTTPException(400, detail="Debes especificar el tipo de problema")
+    if data is None:
+        raise HTTPException(400, detail="Debes de proveer el campo data")
     
     validate_clients_data(locations)
 
@@ -34,7 +37,8 @@ async def put_routing_problem(id: str, request: Request, owner: str):
         'settings': settings,
         'owner': owner,
         'name': name,
-        'solution': solution if solution is not None else []
+        'solution': solution if solution is not None else [],
+        'data': data
         })
 
     routing_problems_dao.close_connection()
