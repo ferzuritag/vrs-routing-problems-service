@@ -61,13 +61,15 @@ class RoutingProblemsDAO:
         owner = routing_info['owner']
         problem_type = routing_info['type']
         name = routing_info['name']
+        data = routing_info['data']
         data_to_update = {
             'name': name,
             'locations': locations,
             'type': problem_type,
             'settings': settings,
             'owner': owner,
-            'solution': solution if solution is not None else []
+            'solution': solution if solution is not None else [],
+            'data': data
         }
         self.database.routing_problems_collection.update_one(
             {
