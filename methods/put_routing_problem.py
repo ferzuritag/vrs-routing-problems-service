@@ -22,8 +22,6 @@ async def put_routing_problem(id: str, request: Request, owner: str):
         raise HTTPException(400, detail="Debes especificar el nombre del problema")
     if problem_type is None:
         raise HTTPException(400, detail="Debes especificar el tipo de problema")
-    if data is None:
-        raise HTTPException(400, detail="Debes de proveer el campo data")
     
     validate_clients_data(locations)
 
